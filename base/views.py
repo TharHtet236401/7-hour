@@ -41,3 +41,19 @@ def updateRoom(request, pk):
             return redirect('home')
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
+
+
+def deleteRoom(request, pk):
+    try:
+        room = Room.objects.get(id=pk)
+        if request.method == 'POST':
+            room.delete()
+            return redirect('home')
+        
+        context = {'obj': room}
+        return render(request, 'base/delete.html', context)
+    except Room.DoesNotExist:
+        return HttpResponse("Room not found")
+    except Exception as e:
+        return HttpResponse(f"An error occurred: {str(e)}")
+
