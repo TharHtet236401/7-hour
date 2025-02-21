@@ -47,11 +47,13 @@ def logoutUser(request):
     return redirect('home')
 
 def registerPage(request):
+    print("Register page the form is not valied yet ")
     page = 'register'
     form = UserCreationForm()
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
+            print("Form is valid")
             user = form.save(commit=False)
             user.username = user.username
             user.save()
