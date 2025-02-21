@@ -4,6 +4,10 @@ from django.http import HttpResponse
 from .forms import RoomForm
 from .models import Room,Topic
 from django.db.models import Q
+from django.contrib.auth.models import User
+from django.contrib import messages
+
+
 
 rooms = [
     {'id': 1, 'name': 'Let\'s learn Python'},
@@ -14,6 +18,15 @@ rooms = [
 from .models import Room
 
 def loginPage(request):
+   
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        try:
+            user = User.objects.get(username=username)
+        except:
+            print("User does not exist")
+            messages.error(request, 'Username does not exist')
     context = {}
     return render(request, 'base/login_register.html',context)
 
